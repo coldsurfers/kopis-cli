@@ -3,6 +3,29 @@
   "version": "0.0.0",
   "description": "KOPIS 공연예술 정보 CLI",
   "type": "module",
+  "license": "MIT",
+  "author": {
+    "name": "COLDSURF",
+    "email": "imcoldsurf@gmail.com",
+    "url": "https://coldsurf.io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coldsurfers/kopis-cli",
+    "directory": "packages/kopis-cli"
+  },
+  "bugs": {
+    "url": "https://github.com/coldsurfers/kopis-cli/issues"
+  },
+  "homepage": "https://github.com/coldsurfers/kopis-cli#readme",
+  "keywords": [
+    "kopis",
+    "cli",
+    "performance",
+    "concert",
+    "ticket",
+    "korea"
+  ],
   "bin": {
     "tickets": "./dist/cli.js"
   },

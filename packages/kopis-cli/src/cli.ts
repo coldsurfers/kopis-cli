@@ -1,1 +1,1 @@
-console.log("@coldsurfers/tickets");
+console.log('@coldsurfers/tickets');

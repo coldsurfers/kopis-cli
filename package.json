@@ -2,10 +2,18 @@
   "name": "kopis-cli",
   "private": true,
   "packageManager": "pnpm@10.28.2",
+  "scripts": {
+    "check": "biome check --write .",
+    "check:ci": "biome check ."
+  },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild"]
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "@biomejs/cli-darwin-arm64"
+    ]
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.10",
     "turbo": "^2",
     "typescript": "^5"
   }
