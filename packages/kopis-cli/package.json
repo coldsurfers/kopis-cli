@@ -26,6 +26,9 @@
     "ticket",
     "korea"
   ],
+  "files": [
+    "dist"
+  ],
   "bin": {
     "tickets": "./dist/cli.js"
   },
