@@ -1,0 +1,23 @@
+{
+  "name": "@coldsurfers/tickets",
+  "version": "0.0.0",
+  "description": "KOPIS 공연예술 정보 CLI",
+  "type": "module",
+  "bin": {
+    "tickets": "./dist/cli.js"
+  },
+  "main": "./dist/cli.js",
+  "exports": {
+    ".": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsup"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "tsup": "^8",
+    "typescript": "^5"
+  }
+}
