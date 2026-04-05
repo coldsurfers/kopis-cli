@@ -1,5 +1,9 @@
 # @coldsurf/tickets
 
+[![npm version](https://img.shields.io/npm/v/@coldsurf/tickets.svg)](https://www.npmjs.com/package/@coldsurf/tickets)
+[![npm downloads](https://img.shields.io/npm/dm/@coldsurf/tickets.svg)](https://www.npmjs.com/package/@coldsurf/tickets)
+[![license](https://img.shields.io/npm/l/@coldsurf/tickets.svg)](./LICENSE)
+
 KOPIS(공연예술통합전산망) OpenAPI를 활용한 공연 정보 CLI 도구입니다.
 
 터미널에서 공연 목록 조회, 상세 정보 확인을 간편하게 할 수 있습니다.
