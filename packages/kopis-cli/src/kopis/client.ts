@@ -1,4 +1,5 @@
 import { XMLParser } from 'fast-xml-parser';
+import { todayString } from '../utils/date.js';
 import type {
   KopisPerformance,
   KopisPerformanceDetail,
@@ -107,9 +108,9 @@ export function createKopisClient(apiKey: string) {
     const url = new URL(KOPIS_BASE);
     url.searchParams.set('service', apiKey);
     url.searchParams.set('stdate', params.startDate);
-    if (params.endDate) url.searchParams.set('eddate', params.endDate);
-    if (params.rows) url.searchParams.set('rows', String(params.rows));
-    if (params.page) url.searchParams.set('cpage', String(params.page));
+    url.searchParams.set('eddate', params.endDate ?? todayString());
+    url.searchParams.set('rows', String(params.rows ?? 50));
+    url.searchParams.set('cpage', String(params.page ?? 1));
     if (params.category) url.searchParams.set('shcate', params.category);
 
     const res = await fetch(url.toString());
