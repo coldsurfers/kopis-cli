@@ -1,5 +1,5 @@
 {
-  "name": "@coldsurfers/tickets",
+  "name": "@coldsurf/tickets",
   "version": "0.0.0",
   "description": "KOPIS 공연예술 정보 CLI",
   "type": "module",
