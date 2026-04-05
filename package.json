@@ -4,7 +4,10 @@
   "packageManager": "pnpm@10.28.2",
   "scripts": {
     "check": "biome check --write .",
-    "check:ci": "biome check ."
+    "check:ci": "biome check .",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "publish-packages": "changeset publish"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -14,6 +17,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.10",
+    "@changesets/cli": "^2.30.0",
     "turbo": "^2",
     "typescript": "^5"
   }
