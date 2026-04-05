@@ -1,38 +1,54 @@
-name: Publish
+name: Changesets
 
 on:
   push:
     branches: [main]
 
+permissions:
+  id-token: write
+  contents: write
+  pull-requests: write
+  packages: write
+
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  publish:
+  changesets:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
 
-      - run: pnpm install --frozen-lockfile
+      - name: Ensure npm supports trusted publishing
+        shell: bash
+        run: |
+          npm install -g npm@^11.5.1
+          node -v
+          npm -v
+          pnpm -v
 
-      - run: pnpm turbo build
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Create Release PR or Publish
+      - name: Build packages
+        run: pnpm turbo build
+
+      - name: Create Release Pull Request or Publish to npm
         uses: changesets/action@v1
         with:
-          publish: pnpm changeset publish
           title: 'chore: version packages'
           commit: 'chore: version packages'
+          version: pnpm changeset version
+          publish: pnpm changeset publish
+          createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
