@@ -1,0 +1,12 @@
+Third-Party Data Attribution
+============================
+
+This software uses data from KOPIS (공연예술통합전산망),
+provided by Arts Council Korea (예술경영지원센터).
+https://kopis.or.kr
+
+※ 집계 데이터는 공연예술통합전산망 연계기관의 티켓판매시스템에서 발권된 분량을
+  기준으로 제공함으로 해당 공연의 전체 관객 수와 차이가 있을 수 있습니다.
+
+KOPIS OpenAPI는 공공데이터포털 기준 이용허락범위: 제한 없음으로 등록되어 있습니다.
+https://www.data.go.kr/data/15097805/openapi.do
