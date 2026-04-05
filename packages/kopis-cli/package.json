@@ -19,5 +19,8 @@
   "devDependencies": {
     "tsup": "^8",
     "typescript": "^5"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.5.10"
   }
 }
