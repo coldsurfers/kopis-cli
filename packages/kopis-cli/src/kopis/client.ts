@@ -101,6 +101,37 @@ function toPerformanceDetail(raw: RawDetail): KopisPerformanceDetail {
   };
 }
 
+export class KopisApiError extends Error {
+  constructor(
+    public code: string,
+    message: string
+  ) {
+    super(message);
+    this.name = 'KopisApiError';
+  }
+}
+
+function checkApiError(parsed: Record<string, unknown>): void {
+  const db = (parsed as { dbs?: { db?: { returncode?: string; errmsg?: string } } })?.dbs?.db;
+  if (db?.returncode && db.returncode !== '00') {
+    throw new KopisApiError(String(db.returncode), db.errmsg ?? 'KOPIS API 오류');
+  }
+}
+
+async function safeFetch(url: string): Promise<string> {
+  let res: Response;
+  try {
+    res = await fetch(url);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    throw new Error(`네트워크 오류: ${message}`);
+  }
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+  }
+  return res.text();
+}
+
 export function createKopisClient(apiKey: string) {
   const parser = new XMLParser();
 
@@ -113,9 +144,9 @@ export function createKopisClient(apiKey: string) {
     url.searchParams.set('cpage', String(params.page ?? 1));
     if (params.category) url.searchParams.set('shcate', params.category);
 
-    const res = await fetch(url.toString());
-    const xml = await res.text();
+    const xml = await safeFetch(url.toString());
     const parsed = parser.parse(xml);
+    checkApiError(parsed);
 
     const db = parsed?.dbs?.db;
     if (!db) return [];
@@ -125,9 +156,9 @@ export function createKopisClient(apiKey: string) {
   }
 
   async function getPerformanceDetail(id: string): Promise<KopisPerformanceDetail | null> {
-    const res = await fetch(`${KOPIS_BASE}/${id}?service=${apiKey}`);
-    const xml = await res.text();
+    const xml = await safeFetch(`${KOPIS_BASE}/${id}?service=${apiKey}`);
     const parsed = parser.parse(xml);
+    checkApiError(parsed);
 
     const db = parsed?.dbs?.db;
     if (!db) return null;

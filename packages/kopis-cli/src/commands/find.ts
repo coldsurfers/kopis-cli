@@ -1,4 +1,6 @@
 import type { Command } from 'commander';
+import { formatJson } from '../formatters/json.js';
+import { formatPerformanceListTable } from '../formatters/table.js';
 import { createKopisClient } from '../kopis/client.js';
 import { todayString } from '../utils/date.js';
 import { resolveApiKey } from '../utils/resolve-api-key.js';
@@ -9,7 +11,7 @@ interface FindOptions {
   category?: string;
   rows: string;
   page: string;
-  format?: string;
+  format: string;
   apiKey?: string;
 }
 
@@ -22,20 +24,32 @@ export function registerFindCommand(program: Command) {
     .option('--category <code>', '장르 필터 (CCCD, AAAA, CCCA, CCCC, GGGA, BBBC, BBBE)')
     .option('--rows <number>', '페이지당 결과 수', '50')
     .option('--page <number>', '페이지 번호', '1')
-    .option('--format <type>', '출력 형식 (json)', 'json')
+    .option('--format <type>', '출력 형식 (table|json)', 'table')
     .option('--apiKey <key>', 'KOPIS API Key (KOPIS_KEY env 사용 가능)')
     .action(async (opts: FindOptions) => {
       const apiKey = resolveApiKey(opts);
       const client = createKopisClient(apiKey);
 
-      const results = await client.getPerformanceList({
-        startDate: opts.startDate,
-        endDate: opts.endDate,
-        rows: Number(opts.rows),
-        page: Number(opts.page),
-        category: opts.category,
-      });
+      try {
+        const results = await client.getPerformanceList({
+          startDate: opts.startDate,
+          endDate: opts.endDate,
+          rows: Number(opts.rows),
+          page: Number(opts.page),
+          category: opts.category,
+        });
 
-      console.log(JSON.stringify(results, null, 2));
+        if (results.length === 0) {
+          console.log('조회 결과가 없습니다.');
+          return;
+        }
+
+        console.log(
+          opts.format === 'json' ? formatJson(results) : formatPerformanceListTable(results)
+        );
+      } catch (err) {
+        console.error(`Error: ${err instanceof Error ? err.message : String(err)}`);
+        process.exit(1);
+      }
     });
 }
