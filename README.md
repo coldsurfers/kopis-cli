@@ -53,6 +53,27 @@ tickets find --startDate 20250101 --area 11
 # 구군 단위 필터 (서울 강남구)
 tickets find --startDate 20250101 --area 11 --subArea 1168
 
+# 공연상태 필터 (공연중만)
+tickets find --startDate 20250101 --performState 02
+
+# 공연장코드 필터
+tickets find --startDate 20250101 --facilityCode FC000001-01
+
+# 아동공연만 조회
+tickets find --startDate 20250101 --kidState
+
+# 오픈런만 조회
+tickets find --startDate 20250101 --openRun
+
+# 특정 날짜 이후 등록/수정된 항목만
+tickets find --startDate 20250101 --afterDate 20260401
+
+# 공연명 검색
+tickets find --startDate 20250101 --title 사랑
+
+# 공연시설명 검색
+tickets find --startDate 20250101 --venue 예술의전당
+
 # JSON 출력
 tickets find --startDate 20250101 --format json
 
@@ -81,6 +102,13 @@ tickets detail PF123456 --format json
 | `--category <code>` | 장르 필터 | 전체 |
 | `--area <code>` | 지역(시도) 필터 | 전체 |
 | `--subArea <code>` | 지역(구군) 필터 | 전체 |
+| `--facilityCode <code>` | 공연장코드 | - |
+| `--performState <code>` | 공연상태 (`01`:예정, `02`:공연중, `03`:완료) | 전체 |
+| `--kidState` | 아동공연만 조회 | - |
+| `--openRun` | 오픈런만 조회 | - |
+| `--afterDate <date>` | 해당 일자 이후 등록/수정 항목만 (yyyyMMdd) | - |
+| `--title <name>` | 공연명 검색 | - |
+| `--venue <name>` | 공연시설명 검색 | - |
 | `--rows <number>` | 페이지당 결과 수 | 50 |
 | `--page <number>` | 페이지 번호 | 1 |
 | `--format <type>` | 출력 형식 (`table` \| `json`) | table |

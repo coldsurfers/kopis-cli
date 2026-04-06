@@ -145,6 +145,13 @@ export function createKopisClient(apiKey: string) {
     if (params.category) url.searchParams.set('shcate', params.category);
     if (params.area) url.searchParams.set('signgucode', params.area);
     if (params.subArea) url.searchParams.set('signgucodesub', params.subArea);
+    if (params.facilityCode) url.searchParams.set('prfplccd', params.facilityCode);
+    if (params.performState) url.searchParams.set('prfstate', params.performState);
+    if (params.kidState) url.searchParams.set('kidstate', 'Y');
+    if (params.openRun) url.searchParams.set('openrun', 'Y');
+    if (params.afterDate) url.searchParams.set('afterdate', params.afterDate);
+    if (params.title) url.searchParams.set('shprfnm', params.title);
+    if (params.venue) url.searchParams.set('shprfnmfct', params.venue);
 
     const xml = await safeFetch(url.toString());
     const parsed = parser.parse(xml);
