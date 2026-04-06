@@ -45,6 +45,7 @@ export interface ListParams {
   category?: string;
   area?: string;
   subArea?: string;
+  performState?: string;
   kidState?: boolean;
   openRun?: boolean;
   afterDate?: string;
@@ -85,3 +86,12 @@ export const KOPIS_AREAS = {
 } as const;
 
 export type KopisAreaCode = (typeof KOPIS_AREAS)[keyof typeof KOPIS_AREAS];
+
+export const KOPIS_PERFORM_STATES = {
+  공연예정: '01',
+  공연중: '02',
+  공연완료: '03',
+} as const;
+
+export type KopisPerformStateCode =
+  (typeof KOPIS_PERFORM_STATES)[keyof typeof KOPIS_PERFORM_STATES];
