@@ -54,9 +54,9 @@
 
 ### 5. `--afterDate` (`afterdate`) — 등록/수정일 필터
 
-- [ ] `types.ts`: `ListParams`에 `afterDate?: string` 추가
-- [ ] `client.ts`: `if (params.afterDate) url.searchParams.set('afterdate', params.afterDate)`
-- [ ] `find.ts`: `FindOptions`에 필드 추가 + `.option('--afterDate <date>', '해당 일자 이후 등록/수정 항목만 출력 (yyyyMMdd)')` + action 전달
+- [x] `types.ts`: `ListParams`에 `afterDate?: string` 추가
+- [x] `client.ts`: `if (params.afterDate) url.searchParams.set('afterdate', params.afterDate)`
+- [x] `find.ts`: `FindOptions`에 필드 추가 + `.option('--afterDate <date>', '해당 일자 이후 등록/수정 항목만 출력 (yyyyMMdd)')` + action 전달
 
 ### 6. README 업데이트
 

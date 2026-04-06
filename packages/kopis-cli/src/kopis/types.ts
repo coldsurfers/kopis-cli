@@ -47,6 +47,7 @@ export interface ListParams {
   subArea?: string;
   kidState?: boolean;
   openRun?: boolean;
+  afterDate?: string;
 }
 
 export const KOPIS_CATEGORIES = {
