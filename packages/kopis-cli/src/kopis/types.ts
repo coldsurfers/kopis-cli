@@ -54,6 +54,26 @@ export interface ListParams {
   venue?: string;
 }
 
+export interface KopisFacility {
+  id: string;
+  name: string;
+  hallCount: number;
+  type: string;
+  sido: string;
+  gugun: string;
+  openYear: string;
+}
+
+export interface FacilityListParams {
+  rows?: number;
+  page?: number;
+  name?: string;
+  facilityType?: string;
+  area?: string;
+  subArea?: string;
+  afterDate?: string;
+}
+
 export const KOPIS_CATEGORIES = {
   대중음악: 'CCCD',
   연극: 'AAAA',
