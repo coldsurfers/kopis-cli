@@ -1,5 +1,5 @@
 import Table from 'cli-table3';
-import type { KopisPerformance, KopisPerformanceDetail } from '../kopis/types.js';
+import type { KopisPerformance, KopisPerformanceDetail, KopisVenue } from '../kopis/types.js';
 
 export function formatPerformanceListTable(items: KopisPerformance[]): string {
   const table = new Table({
@@ -41,6 +41,20 @@ export function formatPerformanceDetailTable(detail: KopisPerformanceDetail): st
   if (detail.tickets.length > 0) {
     const ticketLines = detail.tickets.map((t) => `${t.seller}: ${t.url}`).join('\n');
     table.push(['티켓', ticketLines]);
+  }
+
+  return table.toString();
+}
+
+export function formatVenueListTable(items: KopisVenue[]): string {
+  const table = new Table({
+    head: ['시설명', '시설특성', '시도', '구군', '공연장수', '개관연도'],
+    colWidths: [28, 14, 14, 14, 10, 10],
+    wordWrap: true,
+  });
+
+  for (const item of items) {
+    table.push([item.name, item.type, item.sido, item.gugun, item.hallCount, item.openYear]);
   }
 
   return table.toString();

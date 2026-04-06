@@ -56,6 +56,15 @@ tickets detail PF123456
 tickets detail PF123456 --format json
 ```
 
+### 공연시설 목록 조회
+
+```bash
+tickets venue --name 예술의전당
+tickets venue --area 11
+tickets venue --venueType 2
+tickets venue --format json
+```
+
 ## 옵션
 
 ### `find` — 공연 목록 조회
@@ -84,6 +93,20 @@ tickets detail PF123456 --format json
 | 옵션 | 설명 | 기본값 |
 |------|------|--------|
 | `<id>` | 공연 ID (필수, positional) | **필수** |
+| `--format <type>` | 출력 형식 (`table` \| `json`) | table |
+| `--apiKey <key>` | KOPIS API Key | `KOPIS_KEY` env |
+
+### `venue` — 공연시설 목록 조회
+
+| 옵션 | 설명 | 기본값 |
+|------|------|--------|
+| `--name <name>` | 시설명 검색 | - |
+| `--venueType <code>` | 시설특성코드 (1~7) | - |
+| `--area <code>` | 지역(시도) 필터 | - |
+| `--subArea <code>` | 지역(구군) 필터 | - |
+| `--afterDate <date>` | 해당 일자 이후 등록/수정 항목만 (yyyyMMdd) | - |
+| `--rows <number>` | 페이지당 결과 수 | 50 |
+| `--page <number>` | 페이지 번호 | 1 |
 | `--format <type>` | 출력 형식 (`table` \| `json`) | table |
 | `--apiKey <key>` | KOPIS API Key | `KOPIS_KEY` env |
 

@@ -4,10 +4,13 @@ import type {
   KopisPerformance,
   KopisPerformanceDetail,
   KopisTicketInfo,
+  KopisVenue,
   ListParams,
+  VenueListParams,
 } from './types.js';
 
 const KOPIS_BASE = 'http://www.kopis.or.kr/openApi/restful/pblprfr';
+const KOPIS_VENUE_BASE = 'http://www.kopis.or.kr/openApi/restful/prfplc';
 
 interface RawListItem {
   mt20id: string;
@@ -46,6 +49,28 @@ interface RawDetail {
 interface RawRelate {
   relatenm: string;
   relateurl: string;
+}
+
+interface RawVenueItem {
+  mt10id: string;
+  fcltynm: string;
+  mt13cnt: number;
+  fcltychartr: string;
+  sidonm: string;
+  gugunnm: string;
+  opende: string;
+}
+
+function toVenue(raw: RawVenueItem): KopisVenue {
+  return {
+    id: String(raw.mt10id),
+    name: String(raw.fcltynm),
+    hallCount: Number(raw.mt13cnt ?? 0),
+    type: String(raw.fcltychartr ?? ''),
+    sido: String(raw.sidonm ?? ''),
+    gugun: String(raw.gugunnm ?? ''),
+    openYear: String(raw.opende ?? ''),
+  };
 }
 
 function toPerformance(raw: RawListItem): KopisPerformance {
@@ -175,5 +200,27 @@ export function createKopisClient(apiKey: string) {
     return toPerformanceDetail(db as RawDetail);
   }
 
-  return { getPerformanceList, getPerformanceDetail };
+  async function getVenueList(params: VenueListParams): Promise<KopisVenue[]> {
+    const url = new URL(KOPIS_VENUE_BASE);
+    url.searchParams.set('service', apiKey);
+    url.searchParams.set('rows', String(params.rows ?? 50));
+    url.searchParams.set('cpage', String(params.page ?? 1));
+    if (params.name) url.searchParams.set('shprfnmfct', params.name);
+    if (params.venueType) url.searchParams.set('fcltychartr', params.venueType);
+    if (params.area) url.searchParams.set('signgucode', params.area);
+    if (params.subArea) url.searchParams.set('signgucodesub', params.subArea);
+    if (params.afterDate) url.searchParams.set('afterdate', params.afterDate);
+
+    const xml = await safeFetch(url.toString());
+    const parsed = parser.parse(xml);
+    checkApiError(parsed);
+
+    const db = parsed?.dbs?.db;
+    if (!db) return [];
+
+    const items: RawVenueItem[] = Array.isArray(db) ? db : [db];
+    return items.map(toVenue);
+  }
+
+  return { getPerformanceList, getPerformanceDetail, getVenueList };
 }

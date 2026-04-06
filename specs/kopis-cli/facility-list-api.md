@@ -1,10 +1,10 @@
-# 공연시설 목록 조회 API
+# 공연시설(Venue) 목록 조회 API
 
 > KOPIS OpenAPI: [공연시설 목록](https://kopis.or.kr/por/cs/openapi/openApiList.do?menuId=MNU_00074&tabId=tab1_3)
 
 ## 목표
 
-`tickets facility` 커맨드를 추가하여 공연시설(공연장) 목록을 조회할 수 있게 한다.
+`tickets venue` 커맨드를 추가하여 공연시설(공연장) 목록을 조회할 수 있게 한다.
 
 ## API 스펙
 
@@ -48,7 +48,7 @@ GET http://www.kopis.or.kr/openApi/restful/prfplc
 ### Step 1: 타입 정의 (`types.ts`)
 
 ```typescript
-interface KopisFacility {
+interface KopisVenue {
   id: string;           // mt10id
   name: string;         // fcltynm
   hallCount: number;    // mt13cnt — 공연장 수
@@ -58,32 +58,43 @@ interface KopisFacility {
   openYear: string;     // opende — 개관연도
 }
 
-interface FacilityListParams {
+interface VenueListParams {
   rows?: number;
   page?: number;
   name?: string;          // shprfnmfct
-  facilityType?: string;  // fcltychartr
+  venueType?: string;     // fcltychartr
   area?: string;          // signgucode
   subArea?: string;       // signgucodesub
   afterDate?: string;     // afterdate
 }
+
+// 시설특성코드
+const KOPIS_VENUE_TYPES = {
+  중앙정부: '1',
+  문예회관: '2',
+  '기타(공공)': '3',
+  대학로: '4',
+  '민간(대학로 외)': '5',
+  '기타(해외등)': '6',
+  '기타(비공연장)': '7',
+} as const;
 ```
 
 ### Step 2: 클라이언트 확장 (`client.ts`)
 
-- `createKopisClient`에 `getFacilityList(params)` 메서드 추가
+- `createKopisClient`에 `getVenueList(params)` 메서드 추가
 - 엔드포인트: `http://www.kopis.or.kr/openApi/restful/prfplc`
 - 기존 `safeFetch` + `XMLParser` 재사용
 
-### Step 3: CLI 커맨드 (`commands/facility.ts`)
+### Step 3: CLI 커맨드 (`commands/venue.ts`)
 
 ```bash
-tickets facility --name 예술의전당
-tickets facility --area 11
-tickets facility --area 11 --subArea 1165
-tickets facility --facilityType 1
-tickets facility --afterDate 20260101
-tickets facility --format json
+tickets venue --name 예술의전당
+tickets venue --area 11
+tickets venue --area 11 --subArea 1165
+tickets venue --venueType 2
+tickets venue --afterDate 20260101
+tickets venue --format json
 ```
 
 CLI 옵션:
@@ -91,7 +102,7 @@ CLI 옵션:
 | 옵션 | 설명 | 기본값 |
 |------|------|--------|
 | `--name <name>` | 시설명 검색 | - |
-| `--facilityType <code>` | 시설특성코드 | - |
+| `--venueType <code>` | 시설특성코드 (1~7) | - |
 | `--area <code>` | 지역(시도) 필터 | - |
 | `--subArea <code>` | 지역(구군) 필터 | - |
 | `--afterDate <date>` | 등록/수정일 필터 (yyyyMMdd) | - |
@@ -102,33 +113,34 @@ CLI 옵션:
 
 ### Step 4: 테이블 포맷터 (`formatters/table.ts`)
 
-- `formatFacilityListTable` 함수 추가
+- `formatVenueListTable` 함수 추가
 - 컬럼: 시설명 / 시설특성 / 지역 / 구군 / 공연장수 / 개관연도
 
 ### Step 5: cli.ts 등록
 
-- `registerFacilityCommand(program)` 추가
+- `registerVenueCommand(program)` 추가
 
 ## 체크리스트
 
-- [ ] `KopisFacility` 인터페이스 및 `FacilityListParams` 정의
-- [ ] `client.ts`에 `getFacilityList` 구현
-- [ ] `commands/facility.ts` 생성
-- [ ] `formatFacilityListTable` 포맷터 추가
-- [ ] `cli.ts`에 facility 커맨드 등록
-- [ ] README 업데이트
-- [ ] biome check + tsc + build 통과
+- [x] `KopisVenue` 인터페이스 및 `VenueListParams` 정의
+- [x] `client.ts`에 `getVenueList` 구현
+- [x] `commands/venue.ts` 생성
+- [x] `formatVenueListTable` 포맷터 추가
+- [x] `cli.ts`에 venue 커맨드 등록
+- [x] `KOPIS_VENUE_TYPES` 상수 및 `KopisVenueTypeCode` 타입 추가
+- [x] README 업데이트
+- [x] biome check + tsc + build 통과
 
 ## 변경 범위 요약
 
 | 파일 | 변경 유형 | 설명 |
 |------|-----------|------|
-| `src/kopis/types.ts` | 수정 | `KopisFacility`, `FacilityListParams` 추가 |
-| `src/kopis/client.ts` | 수정 | `getFacilityList` 메서드 추가 |
-| `src/commands/facility.ts` | 신규 | facility 커맨드 구현 |
-| `src/formatters/table.ts` | 수정 | `formatFacilityListTable` 추가 |
-| `src/cli.ts` | 수정 | facility 커맨드 등록 |
-| `README.md` | 수정 | facility 커맨드 문서 추가 |
+| `src/kopis/types.ts` | 수정 | `KopisVenue`, `VenueListParams` 추가 |
+| `src/kopis/client.ts` | 수정 | `getVenueList` 메서드 추가 |
+| `src/commands/venue.ts` | 신규 | venue 커맨드 구현 |
+| `src/formatters/table.ts` | 수정 | `formatVenueListTable` 추가 |
+| `src/cli.ts` | 수정 | venue 커맨드 등록 |
+| `README.md` | 수정 | venue 커맨드 문서 추가 |
 
 ## 참고
 

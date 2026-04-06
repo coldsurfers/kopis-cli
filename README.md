@@ -91,6 +91,25 @@ tickets detail PF123456
 tickets detail PF123456 --format json
 ```
 
+### 공연시설 목록 조회
+
+```bash
+# 시설명 검색
+tickets venue --name 예술의전당
+
+# 지역 필터
+tickets venue --area 11
+
+# 시설특성 필터 (문예회관)
+tickets venue --venueType 2
+
+# 특정 날짜 이후 등록/수정된 시설만
+tickets venue --afterDate 20260101
+
+# JSON 출력
+tickets venue --format json
+```
+
 ## 옵션
 
 ### `find` — 공연 목록 조회
@@ -122,6 +141,20 @@ tickets detail PF123456 --format json
 | `--format <type>` | 출력 형식 (`table` \| `json`) | table |
 | `--apiKey <key>` | KOPIS API Key | `KOPIS_KEY` env |
 
+### `venue` — 공연시설 목록 조회
+
+| 옵션 | 설명 | 기본값 |
+|------|------|--------|
+| `--name <name>` | 시설명 검색 | - |
+| `--venueType <code>` | 시설특성코드 (1~7) | - |
+| `--area <code>` | 지역(시도) 필터 | - |
+| `--subArea <code>` | 지역(구군) 필터 | - |
+| `--afterDate <date>` | 해당 일자 이후 등록/수정 항목만 (yyyyMMdd) | - |
+| `--rows <number>` | 페이지당 결과 수 | 50 |
+| `--page <number>` | 페이지 번호 | 1 |
+| `--format <type>` | 출력 형식 (`table` \| `json`) | table |
+| `--apiKey <key>` | KOPIS API Key | `KOPIS_KEY` env |
+
 ## 카테고리 코드
 
 | 코드 | 장르 |
@@ -133,6 +166,18 @@ tickets detail PF123456 --format json
 | `GGGA` | 뮤지컬 |
 | `BBBC` | 무용(서양/한국무용) |
 | `BBBE` | 대중무용 |
+
+## 시설특성코드 (venueType)
+
+| 코드 | 설명 |
+|------|------|
+| `1` | 중앙정부 |
+| `2` | 문예회관 |
+| `3` | 기타(공공) |
+| `4` | 대학로 |
+| `5` | 민간(대학로 외) |
+| `6` | 기타(해외등) |
+| `7` | 기타(비공연장) |
 
 ## 지역 코드
 
