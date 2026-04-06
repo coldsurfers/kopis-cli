@@ -11,6 +11,7 @@ interface FindOptions {
   category?: string;
   area?: string;
   subArea?: string;
+  kidState?: boolean;
   rows: string;
   page: string;
   format: string;
@@ -29,6 +30,7 @@ export function registerFindCommand(program: Command) {
       '지역 필터 (서울:11, 부산:26, 대구:27, 인천:28, 광주:29, 대전:30, 울산:31, 세종:36, 경기:41, 강원:51, 충북:43, 충남:44, 전북:45, 전남:46, 경북:47, 경남:48, 제주:50)'
     )
     .option('--subArea <code>', '지역(구군) 필터 - 행정표준코드 앞 4자리 (예: 서울강남구:1168)')
+    .option('--kidState', '아동공연만 조회')
     .option('--rows <number>', '페이지당 결과 수', '50')
     .option('--page <number>', '페이지 번호', '1')
     .option('--format <type>', '출력 형식 (table|json)', 'table')
@@ -46,6 +48,7 @@ export function registerFindCommand(program: Command) {
           category: opts.category,
           area: opts.area,
           subArea: opts.subArea,
+          kidState: opts.kidState,
         });
 
         if (results.length === 0) {

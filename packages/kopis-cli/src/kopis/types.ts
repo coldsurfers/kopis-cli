@@ -45,6 +45,7 @@ export interface ListParams {
   category?: string;
   area?: string;
   subArea?: string;
+  kidState?: boolean;
 }
 
 export const KOPIS_CATEGORIES = {

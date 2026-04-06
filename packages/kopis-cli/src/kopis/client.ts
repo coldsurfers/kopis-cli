@@ -145,6 +145,7 @@ export function createKopisClient(apiKey: string) {
     if (params.category) url.searchParams.set('shcate', params.category);
     if (params.area) url.searchParams.set('signgucode', params.area);
     if (params.subArea) url.searchParams.set('signgucodesub', params.subArea);
+    if (params.kidState) url.searchParams.set('kidstate', 'Y');
 
     const xml = await safeFetch(url.toString());
     const parsed = parser.parse(xml);
