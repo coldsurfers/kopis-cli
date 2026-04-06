@@ -45,6 +45,7 @@ export interface ListParams {
   category?: string;
   area?: string;
   subArea?: string;
+  facilityCode?: string;
   performState?: string;
   kidState?: boolean;
   openRun?: boolean;
