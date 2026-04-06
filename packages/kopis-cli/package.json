@@ -27,7 +27,8 @@
     "korea"
   ],
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "bin": {
     "tickets": "./dist/cli.js"
