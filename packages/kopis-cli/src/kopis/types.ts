@@ -54,6 +54,26 @@ export interface ListParams {
   venue?: string;
 }
 
+export interface KopisVenue {
+  id: string;
+  name: string;
+  hallCount: number;
+  type: string;
+  sido: string;
+  gugun: string;
+  openYear: string;
+}
+
+export interface VenueListParams {
+  rows?: number;
+  page?: number;
+  name?: string;
+  venueType?: string;
+  area?: string;
+  subArea?: string;
+  afterDate?: string;
+}
+
 export const KOPIS_CATEGORIES = {
   대중음악: 'CCCD',
   연극: 'AAAA',
@@ -96,3 +116,15 @@ export const KOPIS_PERFORM_STATES = {
 
 export type KopisPerformStateCode =
   (typeof KOPIS_PERFORM_STATES)[keyof typeof KOPIS_PERFORM_STATES];
+
+export const KOPIS_VENUE_TYPES = {
+  중앙정부: '1',
+  문예회관: '2',
+  '기타(공공)': '3',
+  대학로: '4',
+  '민간(대학로 외)': '5',
+  '기타(해외등)': '6',
+  '기타(비공연장)': '7',
+} as const;
+
+export type KopisVenueTypeCode = (typeof KOPIS_VENUE_TYPES)[keyof typeof KOPIS_VENUE_TYPES];
