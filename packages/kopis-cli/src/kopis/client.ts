@@ -148,6 +148,8 @@ export function createKopisClient(apiKey: string) {
     if (params.kidState) url.searchParams.set('kidstate', 'Y');
     if (params.openRun) url.searchParams.set('openrun', 'Y');
     if (params.afterDate) url.searchParams.set('afterdate', params.afterDate);
+    if (params.title) url.searchParams.set('shprfnm', params.title);
+    if (params.venue) url.searchParams.set('shprfnmfct', params.venue);
 
     const xml = await safeFetch(url.toString());
     const parsed = parser.parse(xml);

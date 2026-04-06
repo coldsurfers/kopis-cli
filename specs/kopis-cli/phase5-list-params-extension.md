@@ -1,10 +1,10 @@
-# Phase 5: ListParams 확장 — 공연장/아동공연/공연상태/오픈런/등록일 필터
+# Phase 5: ListParams 확장 — 공연장/아동공연/공연상태/오픈런/등록일/공연명/시설명 필터
 
 > GitHub Issue: [#3](https://github.com/coldsurfers/kopis-cli/issues/3)
 
 ## 목표
 
-`find` 커맨드의 `ListParams`에 KOPIS API가 지원하는 추가 필터 5종을 반영한다.
+`find` 커맨드의 `ListParams`에 KOPIS API가 지원하는 추가 필터 7종을 반영한다.
 
 ## 추가 파라미터
 
@@ -15,6 +15,8 @@
 | `--performState` | `prfstate` | 공연상태코드 | `01` (예정), `02` (공연중), `03` (완료) |
 | `--openRun` | `openrun` | 오픈런만 조회 (플래그) | 설정 시 `Y` / 미설정 시 unset |
 | `--afterDate` | `afterdate` | 해당 일자 이후 등록/수정된 항목만 출력 | `20260101` |
+| `--title` | `shprfnm` | 공연명 검색 (최대 100자) | `사랑` |
+| `--venue` | `shprfnmfct` | 공연시설명 검색 (최대 100자) | `예술의전당` |
 
 ## 공통 변경 패턴
 
@@ -58,11 +60,23 @@
 - [x] `client.ts`: `if (params.afterDate) url.searchParams.set('afterdate', params.afterDate)`
 - [x] `find.ts`: `FindOptions`에 필드 추가 + `.option('--afterDate <date>', '해당 일자 이후 등록/수정 항목만 출력 (yyyyMMdd)')` + action 전달
 
-### 6. README 업데이트
+### 6. `--title` (`shprfnm`) — 공연명 검색
 
-- [ ] 옵션 테이블에 5개 파라미터 추가
+- [x] `types.ts`: `ListParams`에 `title?: string` 추가
+- [x] `client.ts`: `if (params.title) url.searchParams.set('shprfnm', params.title)`
+- [x] `find.ts`: `FindOptions`에 필드 추가 + `.option('--title <name>', '공연명 검색')` + action 전달
 
-### 7. 검증
+### 7. `--venue` (`shprfnmfct`) — 공연시설명 검색
+
+- [x] `types.ts`: `ListParams`에 `venue?: string` 추가
+- [x] `client.ts`: `if (params.venue) url.searchParams.set('shprfnmfct', params.venue)`
+- [x] `find.ts`: `FindOptions`에 필드 추가 + `.option('--venue <name>', '공연시설명 검색')` + action 전달
+
+### 8. README 업데이트
+
+- [ ] 옵션 테이블에 7개 파라미터 추가
+
+### 9. 검증
 
 - [ ] biome check 통과
 - [ ] pnpm turbo build 성공
@@ -72,9 +86,9 @@
 
 | 파일 | 변경 유형 | 설명 |
 |------|-----------|------|
-| `packages/kopis-cli/src/kopis/types.ts` | 수정 | `ListParams`에 5개 optional 필드 추가 |
-| `packages/kopis-cli/src/kopis/client.ts` | 수정 | 쿼리스트링 매핑 5건 추가 |
-| `packages/kopis-cli/src/commands/find.ts` | 수정 | CLI 옵션 5건 + `FindOptions` 확장 |
+| `packages/kopis-cli/src/kopis/types.ts` | 수정 | `ListParams`에 7개 optional 필드 추가 |
+| `packages/kopis-cli/src/kopis/client.ts` | 수정 | 쿼리스트링 매핑 7건 추가 |
+| `packages/kopis-cli/src/commands/find.ts` | 수정 | CLI 옵션 7건 + `FindOptions` 확장 |
 | `README.md` | 수정 | 옵션 테이블 업데이트 |
 
 ## 참고

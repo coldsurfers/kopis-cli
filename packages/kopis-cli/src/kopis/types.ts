@@ -48,6 +48,8 @@ export interface ListParams {
   kidState?: boolean;
   openRun?: boolean;
   afterDate?: string;
+  title?: string;
+  venue?: string;
 }
 
 export const KOPIS_CATEGORIES = {

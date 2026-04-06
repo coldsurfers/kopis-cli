@@ -14,6 +14,8 @@ interface FindOptions {
   kidState?: boolean;
   openRun?: boolean;
   afterDate?: string;
+  title?: string;
+  venue?: string;
   rows: string;
   page: string;
   format: string;
@@ -35,6 +37,8 @@ export function registerFindCommand(program: Command) {
     .option('--kidState', '아동공연만 조회')
     .option('--openRun', '오픈런만 조회')
     .option('--afterDate <date>', '해당 일자 이후 등록/수정 항목만 출력 (yyyyMMdd)')
+    .option('--title <name>', '공연명 검색')
+    .option('--venue <name>', '공연시설명 검색')
     .option('--rows <number>', '페이지당 결과 수', '50')
     .option('--page <number>', '페이지 번호', '1')
     .option('--format <type>', '출력 형식 (table|json)', 'table')
@@ -55,6 +59,8 @@ export function registerFindCommand(program: Command) {
           kidState: opts.kidState,
           openRun: opts.openRun,
           afterDate: opts.afterDate,
+          title: opts.title,
+          venue: opts.venue,
         });
 
         if (results.length === 0) {
