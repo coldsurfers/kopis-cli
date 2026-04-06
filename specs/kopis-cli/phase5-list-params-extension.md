@@ -32,9 +32,9 @@
 
 ### 1. `--facilityCode` (`prfplccd`) — 공연장코드
 
-- [ ] `types.ts`: `ListParams`에 `facilityCode?: string` 추가
-- [ ] `client.ts`: `if (params.facilityCode) url.searchParams.set('prfplccd', params.facilityCode)`
-- [ ] `find.ts`: `FindOptions`에 필드 추가 + `.option('--facilityCode <code>', '공연장코드 필터')` + action 전달
+- [x] `types.ts`: `ListParams`에 `facilityCode?: string` 추가
+- [x] `client.ts`: `if (params.facilityCode) url.searchParams.set('prfplccd', params.facilityCode)`
+- [x] `find.ts`: `FindOptions`에 필드 추가 + `.option('--facilityCode <code>', '공연장코드 필터')` + action 전달
 
 ### 2. `--kidState` (`kidstate`) — 아동공연 여부
 
@@ -44,9 +44,9 @@
 
 ### 3. `--performState` (`prfstate`) — 공연상태코드
 
-- [ ] `types.ts`: `ListParams`에 `performState?: string` 추가
-- [ ] `client.ts`: `if (params.performState) url.searchParams.set('prfstate', params.performState)`
-- [ ] `find.ts`: `FindOptions`에 필드 추가 + `.option('--performState <code>', '공연상태 (01:예정, 02:공연중, 03:완료)')` + action 전달
+- [x] `types.ts`: `ListParams`에 `performState?: string` 추가, `KOPIS_PERFORM_STATES` 상수 추가
+- [x] `client.ts`: `if (params.performState) url.searchParams.set('prfstate', params.performState)`
+- [x] `find.ts`: `FindOptions`에 필드 추가 + `.option('--performState <code>', '공연상태 (01:예정, 02:공연중, 03:완료)')` + action 전달
 
 ### 4. `--openRun` (`openrun`) — 오픈런 여부
 
@@ -74,13 +74,13 @@
 
 ### 8. README 업데이트
 
-- [ ] 옵션 테이블에 7개 파라미터 추가
+- [ ] 옵션 테이블에 7개 파라미터 추가 (머지 후 반영 예정)
 
 ### 9. 검증
 
-- [ ] biome check 통과
-- [ ] pnpm turbo build 성공
-- [ ] 빌드된 CLI 실행 확인
+- [x] biome check 통과
+- [x] pnpm turbo build 성공
+- [x] tsc --noEmit 통과
 
 ## 변경 범위 요약
 
