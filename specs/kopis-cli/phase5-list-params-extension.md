@@ -13,7 +13,7 @@
 | `--facilityCode` | `prfplccd` | 공연장코드 | `FC001247` |
 | `--kidState` | `kidstate` | 아동공연만 조회 (플래그) | 설정 시 `Y` / 미설정 시 unset |
 | `--performState` | `prfstate` | 공연상태코드 | `01` (예정), `02` (공연중), `03` (완료) |
-| `--openRun` | `openrun` | 오픈런 여부 | `Y` / `N` |
+| `--openRun` | `openrun` | 오픈런만 조회 (플래그) | 설정 시 `Y` / 미설정 시 unset |
 | `--afterDate` | `afterdate` | 해당 일자 이후 등록/수정된 항목만 출력 | `20260101` |
 
 ## 공통 변경 패턴
@@ -48,9 +48,9 @@
 
 ### 4. `--openRun` (`openrun`) — 오픈런 여부
 
-- [ ] `types.ts`: `ListParams`에 `openRun?: string` 추가
-- [ ] `client.ts`: `if (params.openRun) url.searchParams.set('openrun', params.openRun)`
-- [ ] `find.ts`: `FindOptions`에 필드 추가 + `.option('--openRun <yn>', '오픈런 여부 (Y/N)')` + action 전달
+- [x] `types.ts`: `ListParams`에 `openRun?: boolean` 추가
+- [x] `client.ts`: `if (params.openRun) url.searchParams.set('openrun', 'Y')`
+- [x] `find.ts`: `FindOptions`에 필드 추가 + `.option('--openRun', '오픈런만 조회')` (boolean 플래그) + action 전달
 
 ### 5. `--afterDate` (`afterdate`) — 등록/수정일 필터
 
