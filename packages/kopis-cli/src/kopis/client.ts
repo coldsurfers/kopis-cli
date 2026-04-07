@@ -281,7 +281,18 @@ function resolveRows(rows?: number): number {
   return value;
 }
 
-export function createKopisClient(apiKey: string) {
+export interface KopisClient {
+  getPerformanceList(params: ListParams): Promise<KopisPerformance[]>;
+  getPerformanceDetail(id: string): Promise<KopisPerformanceDetail | null>;
+  getVenueList(params: VenueListParams): Promise<KopisVenue[]>;
+  getVenueDetail(id: string): Promise<KopisVenueDetail | null>;
+  getPromoterList(params: PromoterListParams): Promise<KopisPromoter[]>;
+  getAwardList(params: ListParams): Promise<KopisAwardPerformance[]>;
+  getFestivalList(params: ListParams): Promise<KopisFestivalPerformance[]>;
+  getCreatorList(params: ListParams): Promise<KopisCreatorPerformance[]>;
+}
+
+export function createKopisClient(apiKey: string): KopisClient {
   const parser = new XMLParser();
 
   async function getPerformanceList(params: ListParams): Promise<KopisPerformance[]> {

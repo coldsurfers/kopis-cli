@@ -173,20 +173,20 @@ export function createKopisClient(apiKey: string): KopisClient {
 
 ### Phase 1: SDK entry point 구성
 
-- [ ] `src/index.ts` 작성 (SDK public API re-export)
-- [ ] `client.ts`에 `KopisClient` 인터페이스 추가 및 `createKopisClient` 반환 타입 명시
-- [ ] `tsup.config.ts`를 dual entry point로 수정 (`src/index.ts` + `src/cli.ts`)
-- [ ] `package.json`의 `main`, `types`, `exports` 수정
+- [x] `src/index.ts` 작성 (SDK public API re-export)
+- [x] `client.ts`에 `KopisClient` 인터페이스 추가 및 `createKopisClient` 반환 타입 명시
+- [x] `tsup.config.ts`를 dual entry point로 수정 (`src/index.ts` + `src/cli.ts`)
+- [x] `package.json`의 `main`, `types`, `exports` 수정
 
 ### Phase 2: 빌드 + 검증
 
-- [ ] `pnpm turbo build` — `dist/index.js` + `dist/index.d.ts` + `dist/cli.js` 생성 확인
-- [ ] `pnpm turbo check:type` 타입 체크 통과
-- [ ] `pnpm biome check --write packages/kopis-cli/src/index.ts` 실행
+- [x] `pnpm turbo build` — `dist/index.js` + `dist/index.d.ts` + `dist/cli.js` 생성 확인
+- [x] `pnpm turbo check:type` 타입 체크 통과
+- [x] `pnpm biome check --write packages/kopis-cli/src/index.ts` 실행
 
 ### Phase 3: changeset
 
-- [ ] `pnpm changeset` — `@coldsurf/tickets` minor (SDK export 추가)
+- [x] `pnpm changeset` — `@coldsurf/tickets` minor (SDK export 추가)
 
 ## 변경 범위
 
