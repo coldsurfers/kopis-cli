@@ -1,6 +1,6 @@
 {
   "name": "@coldsurf/tickets",
-  "version": "0.9.0-alpha.1",
+  "version": "0.9.0",
   "description": "KOPIS 공연예술 정보 CLI 및 Typescript SDK",
   "type": "module",
   "license": "MIT",

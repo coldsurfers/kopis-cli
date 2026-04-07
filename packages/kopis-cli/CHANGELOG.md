@@ -1,5 +1,11 @@
 # @coldsurf/tickets
 
+## 0.9.0
+
+### Minor Changes
+
+- 98db7a6: TypeScript SDK export 추가: `@coldsurf/tickets`에서 `createKopisClient`, 타입, 상수를 library로 import 가능
+
 ## 0.8.0
 
 ### Minor Changes
