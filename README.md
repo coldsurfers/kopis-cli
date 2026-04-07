@@ -183,6 +183,28 @@ tickets festival --startDate 20250101 --format json
 tickets festival --startDate 20250101 --rows 10 --page 2
 ```
 
+### 원·창작자 목록 조회
+
+```bash
+# 기간별 원·창작자 조회
+tickets creator --startDate 20250101 --endDate 20251231
+
+# 장르 필터
+tickets creator --startDate 20250101 --category AAAA
+
+# 공연명 검색
+tickets creator --startDate 20250101 --title 햄릿
+
+# 지역 필터
+tickets creator --startDate 20250101 --area 11
+
+# JSON 출력
+tickets creator --startDate 20250101 --format json
+
+# 페이지네이션
+tickets creator --startDate 20250101 --rows 10 --page 2
+```
+
 ## 옵션
 
 ### `find` — 공연 목록 조회
@@ -269,6 +291,26 @@ tickets festival --startDate 20250101 --rows 10 --page 2
 | `--apiKey <key>` | KOPIS API Key | `KOPIS_KEY` env |
 
 ### `festival` — 축제 목록 조회
+
+| 옵션 | 설명 | 기본값 |
+|------|------|--------|
+| `--startDate <date>` | 공연시작일자 (yyyyMMdd) | **필수** |
+| `--endDate <date>` | 공연종료일자 (yyyyMMdd) | 오늘 |
+| `--category <code>` | 장르 필터 | 전체 |
+| `--area <code>` | 지역(시도) 필터 | 전체 |
+| `--subArea <code>` | 지역(구군) 필터 | 전체 |
+| `--facilityCode <code>` | 공연장코드 | - |
+| `--performState <code>` | 공연상태 (`01`:예정, `02`:공연중, `03`:완료) | 전체 |
+| `--kidState` | 아동공연만 조회 | - |
+| `--afterDate <date>` | 해당 일자 이후 등록/수정 항목만 (yyyyMMdd) | - |
+| `--title <name>` | 공연명 검색 | - |
+| `--venue <name>` | 공연시설명 검색 | - |
+| `--rows <number>` | 페이지당 결과 수 (최대 100) | 50 |
+| `--page <number>` | 페이지 번호 | 1 |
+| `--format <type>` | 출력 형식 (`table` \| `json`) | table |
+| `--apiKey <key>` | KOPIS API Key | `KOPIS_KEY` env |
+
+### `creator` — 원·창작자 목록 조회
 
 | 옵션 | 설명 | 기본값 |
 |------|------|--------|
