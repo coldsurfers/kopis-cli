@@ -1,5 +1,11 @@
 # @coldsurf/tickets
 
+## 0.4.0
+
+### Minor Changes
+
+- 179f7f9: 공연시설 상세 조회 커맨드(venue-detail) 추가
+
 ## 0.3.0
 
 ### Minor Changes
