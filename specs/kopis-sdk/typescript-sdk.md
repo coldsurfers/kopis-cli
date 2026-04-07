@@ -186,7 +186,7 @@ export function createKopisClient(apiKey: string): KopisClient {
 
 ### Phase 3: changeset
 
-- [ ] `pnpm changeset` — `@coldsurf/tickets` minor (SDK export 추가)
+- [x] `pnpm changeset` — `@coldsurf/tickets` minor (SDK export 추가)
 
 ## 변경 범위
 
