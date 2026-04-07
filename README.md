@@ -110,6 +110,16 @@ tickets venue --afterDate 20260101
 tickets venue --format json
 ```
 
+### 공연시설 상세 조회
+
+```bash
+# 시설 ID로 상세 조회
+tickets venue-detail FC001247
+
+# JSON 출력
+tickets venue-detail FC001247 --format json
+```
+
 ## 옵션
 
 ### `find` — 공연 목록 조회
@@ -152,6 +162,14 @@ tickets venue --format json
 | `--afterDate <date>` | 해당 일자 이후 등록/수정 항목만 (yyyyMMdd) | - |
 | `--rows <number>` | 페이지당 결과 수 | 50 |
 | `--page <number>` | 페이지 번호 | 1 |
+| `--format <type>` | 출력 형식 (`table` \| `json`) | table |
+| `--apiKey <key>` | KOPIS API Key | `KOPIS_KEY` env |
+
+### `venue-detail` — 공연시설 상세 조회
+
+| 옵션 | 설명 | 기본값 |
+|------|------|--------|
+| `<id>` | 공연시설 ID (필수, positional) | **필수** |
 | `--format <type>` | 출력 형식 (`table` \| `json`) | table |
 | `--apiKey <key>` | KOPIS API Key | `KOPIS_KEY` env |
 
