@@ -1,5 +1,13 @@
 # @coldsurf/tickets
 
+## 0.7.0
+
+### Minor Changes
+
+- e835d12: Add a new `festival` command for querying festival listings from the KOPIS OpenAPI.
+
+  This includes festival list fetching, table/json output support, and README documentation updates.
+
 ## 0.6.0
 
 ### Minor Changes
