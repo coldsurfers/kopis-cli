@@ -51,6 +51,9 @@ tickets venue-detail FC001247
 # 기획/제작사 목록 조회
 tickets promoter --name 국악단
 
+# 수상작 목록 조회
+tickets award --startDate 20160101 --endDate 20161231
+
 # JSON 출력 (모든 커맨드 공통)
 tickets find --startDate 20250101 --format json
 ```
