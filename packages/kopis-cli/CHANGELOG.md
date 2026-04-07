@@ -1,5 +1,11 @@
 # @coldsurf/tickets
 
+## 0.5.0
+
+### Minor Changes
+
+- 47eeb8a: 기획/제작사 목록 조회 커맨드 (tickets promoter) 추가
+
 ## 0.4.0
 
 ### Minor Changes
