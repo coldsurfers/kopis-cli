@@ -1,5 +1,10 @@
 import Table from 'cli-table3';
-import type { KopisPerformance, KopisPerformanceDetail, KopisVenue } from '../kopis/types.js';
+import type {
+  KopisPerformance,
+  KopisPerformanceDetail,
+  KopisVenue,
+  KopisVenueDetail,
+} from '../kopis/types.js';
 
 export function formatPerformanceListTable(items: KopisPerformance[]): string {
   const table = new Table({
@@ -55,6 +60,36 @@ export function formatVenueListTable(items: KopisVenue[]): string {
 
   for (const item of items) {
     table.push([item.name, item.type, item.sido, item.gugun, item.hallCount, item.openYear]);
+  }
+
+  return table.toString();
+}
+
+export function formatVenueDetailTable(detail: KopisVenueDetail): string {
+  const table = new Table({ colWidths: [15, 60], wordWrap: true });
+
+  table.push(
+    ['시설명', detail.name],
+    ['시설특성', detail.type],
+    ['개관연도', detail.openYear],
+    ['객석수', String(detail.seatScale)],
+    ['공연장수', String(detail.hallCount)],
+    ['전화번호', detail.phone],
+    ['홈페이지', detail.homepage],
+    ['주소', detail.address],
+    ['좌표', `${detail.latitude}, ${detail.longitude}`]
+  );
+
+  if (detail.halls.length > 0) {
+    const hallTable = new Table({
+      head: ['공연장명', '좌석수', '무대/오케스트라'],
+      colWidths: [30, 12, 18],
+      wordWrap: true,
+    });
+    for (const hall of detail.halls) {
+      hallTable.push([hall.name, hall.seatCount, hall.stageOrOrchestra]);
+    }
+    return `${table.toString()}\n\n공연장 목록\n${hallTable.toString()}`;
   }
 
   return table.toString();

@@ -64,6 +64,28 @@ export interface KopisVenue {
   openYear: string;
 }
 
+export interface KopisHall {
+  id: string;
+  name: string;
+  seatCount: number;
+  stageOrOrchestra: string;
+}
+
+export interface KopisVenueDetail {
+  id: string;
+  name: string;
+  hallCount: number;
+  type: string;
+  openYear: string;
+  seatScale: number;
+  phone: string;
+  homepage: string;
+  address: string;
+  latitude: string;
+  longitude: string;
+  halls: KopisHall[];
+}
+
 export interface VenueListParams {
   rows?: number;
   page?: number;
