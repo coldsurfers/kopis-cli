@@ -71,9 +71,7 @@ export function registerCreatorCommand(program: Command) {
           return;
         }
 
-        console.log(
-          opts.format === 'json' ? formatJson(results) : formatCreatorListTable(results)
-        );
+        console.log(opts.format === 'json' ? formatJson(results) : formatCreatorListTable(results));
       } catch (err) {
         console.error(`Error: ${err instanceof Error ? err.message : String(err)}`);
         process.exit(1);
