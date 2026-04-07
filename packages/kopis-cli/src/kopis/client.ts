@@ -2,6 +2,7 @@ import { XMLParser } from 'fast-xml-parser';
 import { todayString } from '../utils/date.js';
 import type {
   KopisAwardPerformance,
+  KopisCreatorPerformance,
   KopisFestivalPerformance,
   KopisHall,
   KopisPerformance,
@@ -20,6 +21,7 @@ const KOPIS_VENUE_BASE = 'http://www.kopis.or.kr/openApi/restful/prfplc';
 const KOPIS_PROMOTER_BASE = 'http://www.kopis.or.kr/openApi/restful/mnfct';
 const KOPIS_AWARD_BASE = 'http://www.kopis.or.kr/openApi/restful/prfawad';
 const KOPIS_FESTIVAL_BASE = 'http://www.kopis.or.kr/openApi/restful/prffest';
+const KOPIS_CREATOR_BASE = 'http://www.kopis.or.kr/openApi/restful/prfper';
 
 interface RawListItem {
   mt20id: string;
@@ -101,6 +103,19 @@ function toFestivalPerformance(raw: RawFestivalItem): KopisFestivalPerformance {
   return {
     ...toPerformance(raw),
     festival: String(raw.festival ?? ''),
+  };
+}
+
+interface RawCreatorItem extends RawListItem {
+  author: string;
+  creator: string;
+}
+
+function toCreatorPerformance(raw: RawCreatorItem): KopisCreatorPerformance {
+  return {
+    ...toPerformance(raw),
+    author: String(raw.author ?? ''),
+    creator: String(raw.creator ?? ''),
   };
 }
 
@@ -424,6 +439,35 @@ export function createKopisClient(apiKey: string) {
     return items.map(toFestivalPerformance);
   }
 
+  async function getCreatorList(params: ListParams): Promise<KopisCreatorPerformance[]> {
+    const rows = resolveRows(params.rows);
+    const url = new URL(KOPIS_CREATOR_BASE);
+    url.searchParams.set('service', apiKey);
+    url.searchParams.set('stdate', params.startDate);
+    url.searchParams.set('eddate', params.endDate ?? todayString());
+    url.searchParams.set('rows', String(rows));
+    url.searchParams.set('cpage', String(params.page ?? 1));
+    if (params.category) url.searchParams.set('shcate', params.category);
+    if (params.area) url.searchParams.set('signgucode', params.area);
+    if (params.subArea) url.searchParams.set('signgucodesub', params.subArea);
+    if (params.facilityCode) url.searchParams.set('prfplccd', params.facilityCode);
+    if (params.performState) url.searchParams.set('prfstate', params.performState);
+    if (params.kidState) url.searchParams.set('kidstate', 'Y');
+    if (params.afterDate) url.searchParams.set('afterdate', params.afterDate);
+    if (params.title) url.searchParams.set('shprfnm', params.title);
+    if (params.venue) url.searchParams.set('shprfnmfct', params.venue);
+
+    const xml = await safeFetch(url.toString());
+    const parsed = parser.parse(xml);
+    checkApiError(parsed);
+
+    const db = parsed?.dbs?.db;
+    if (!db) return [];
+
+    const items: RawCreatorItem[] = Array.isArray(db) ? db : [db];
+    return items.map(toCreatorPerformance);
+  }
+
   return {
     getPerformanceList,
     getPerformanceDetail,
@@ -432,5 +476,6 @@ export function createKopisClient(apiKey: string) {
     getPromoterList,
     getAwardList,
     getFestivalList,
+    getCreatorList,
   };
 }

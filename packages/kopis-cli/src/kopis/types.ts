@@ -94,6 +94,11 @@ export interface KopisFestivalPerformance extends KopisPerformance {
   festival: string;
 }
 
+export interface KopisCreatorPerformance extends KopisPerformance {
+  author: string;
+  creator: string;
+}
+
 export interface KopisPromoter {
   id: string;
   name: string;

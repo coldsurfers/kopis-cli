@@ -57,6 +57,9 @@ tickets award --startDate 20160101 --endDate 20161231
 # 축제 목록 조회
 tickets festival --startDate 20250101 --endDate 20251231
 
+# 원·창작자 목록 조회
+tickets creator --startDate 20250101 --endDate 20251231
+
 # JSON 출력 (모든 커맨드 공통)
 tickets find --startDate 20250101 --format json
 ```
