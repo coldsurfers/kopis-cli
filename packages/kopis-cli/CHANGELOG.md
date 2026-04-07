@@ -1,5 +1,11 @@
 # @coldsurf/tickets
 
+## 0.6.0
+
+### Minor Changes
+
+- 011656a: 수상작 목록 조회 커맨드 (tickets award) 추가
+
 ## 0.5.0
 
 ### Minor Changes
