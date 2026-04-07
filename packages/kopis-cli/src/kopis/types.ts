@@ -86,6 +86,10 @@ export interface KopisVenueDetail {
   halls: KopisHall[];
 }
 
+export interface KopisAwardPerformance extends KopisPerformance {
+  awards: string;
+}
+
 export interface KopisPromoter {
   id: string;
   name: string;

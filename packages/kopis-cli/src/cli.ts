@@ -1,5 +1,6 @@
 import { Command } from 'commander';
 import pkg from '../package.json' with { type: 'json' };
+import { registerAwardCommand } from './commands/award.js';
 import { registerDetailCommand } from './commands/detail.js';
 import { registerFindCommand } from './commands/find.js';
 import { registerPromoterCommand } from './commands/promoter.js';
@@ -15,5 +16,6 @@ registerDetailCommand(program);
 registerVenueCommand(program);
 registerVenueDetailCommand(program);
 registerPromoterCommand(program);
+registerAwardCommand(program);
 
 program.parse();

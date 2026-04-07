@@ -1,5 +1,6 @@
 import Table from 'cli-table3';
 import type {
+  KopisAwardPerformance,
   KopisPerformance,
   KopisPerformanceDetail,
   KopisPromoter,
@@ -91,6 +92,28 @@ export function formatVenueDetailTable(detail: KopisVenueDetail): string {
       hallTable.push([hall.name, hall.seatCount, hall.stageOrOrchestra]);
     }
     return `${table.toString()}\n\n공연장 목록\n${hallTable.toString()}`;
+  }
+
+  return table.toString();
+}
+
+export function formatAwardListTable(items: KopisAwardPerformance[]): string {
+  const table = new Table({
+    head: ['공연ID', '공연명', '장르', '공연장', '기간', '상태', '수상실적'],
+    colWidths: [14, 20, 10, 16, 23, 15, 30],
+    wordWrap: true,
+  });
+
+  for (const item of items) {
+    table.push([
+      item.id,
+      item.title,
+      item.genre,
+      item.venue,
+      `${item.startDate} ~ ${item.endDate}`,
+      item.state,
+      item.awards,
+    ]);
   }
 
   return table.toString();
