@@ -1,5 +1,13 @@
 # @coldsurf/tickets
 
+## 0.8.0
+
+### Minor Changes
+
+- db4a7d2: Add a new `creator` command for querying original author and creator listings from the KOPIS OpenAPI.
+
+  This includes creator list fetching, table/json output support, and README documentation updates.
+
 ## 0.7.0
 
 ### Minor Changes
