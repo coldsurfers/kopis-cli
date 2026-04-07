@@ -2,6 +2,7 @@ import { XMLParser } from 'fast-xml-parser';
 import { todayString } from '../utils/date.js';
 import type {
   KopisAwardPerformance,
+  KopisFestivalPerformance,
   KopisHall,
   KopisPerformance,
   KopisPerformanceDetail,
@@ -18,6 +19,7 @@ const KOPIS_BASE = 'http://www.kopis.or.kr/openApi/restful/pblprfr';
 const KOPIS_VENUE_BASE = 'http://www.kopis.or.kr/openApi/restful/prfplc';
 const KOPIS_PROMOTER_BASE = 'http://www.kopis.or.kr/openApi/restful/mnfct';
 const KOPIS_AWARD_BASE = 'http://www.kopis.or.kr/openApi/restful/prfawad';
+const KOPIS_FESTIVAL_BASE = 'http://www.kopis.or.kr/openApi/restful/prffest';
 
 interface RawListItem {
   mt20id: string;
@@ -88,6 +90,17 @@ function toAwardPerformance(raw: RawAwardItem): KopisAwardPerformance {
   return {
     ...toPerformance(raw),
     awards: String(raw.awards ?? ''),
+  };
+}
+
+interface RawFestivalItem extends RawListItem {
+  festival: string;
+}
+
+function toFestivalPerformance(raw: RawFestivalItem): KopisFestivalPerformance {
+  return {
+    ...toPerformance(raw),
+    festival: String(raw.festival ?? ''),
   };
 }
 
@@ -245,15 +258,24 @@ async function safeFetch(url: string): Promise<string> {
   return res.text();
 }
 
+function resolveRows(rows?: number): number {
+  const value = rows ?? 50;
+  if (value > 100) {
+    throw new Error('rows는 최대 100까지만 설정할 수 있습니다.');
+  }
+  return value;
+}
+
 export function createKopisClient(apiKey: string) {
   const parser = new XMLParser();
 
   async function getPerformanceList(params: ListParams): Promise<KopisPerformance[]> {
+    const rows = resolveRows(params.rows);
     const url = new URL(KOPIS_BASE);
     url.searchParams.set('service', apiKey);
     url.searchParams.set('stdate', params.startDate);
     url.searchParams.set('eddate', params.endDate ?? todayString());
-    url.searchParams.set('rows', String(params.rows ?? 50));
+    url.searchParams.set('rows', String(rows));
     url.searchParams.set('cpage', String(params.page ?? 1));
     if (params.category) url.searchParams.set('shcate', params.category);
     if (params.area) url.searchParams.set('signgucode', params.area);
@@ -289,9 +311,10 @@ export function createKopisClient(apiKey: string) {
   }
 
   async function getVenueList(params: VenueListParams): Promise<KopisVenue[]> {
+    const rows = resolveRows(params.rows);
     const url = new URL(KOPIS_VENUE_BASE);
     url.searchParams.set('service', apiKey);
-    url.searchParams.set('rows', String(params.rows ?? 50));
+    url.searchParams.set('rows', String(rows));
     url.searchParams.set('cpage', String(params.page ?? 1));
     if (params.name) url.searchParams.set('shprfnmfct', params.name);
     if (params.venueType) url.searchParams.set('fcltychartr', params.venueType);
@@ -322,9 +345,10 @@ export function createKopisClient(apiKey: string) {
   }
 
   async function getPromoterList(params: PromoterListParams): Promise<KopisPromoter[]> {
+    const rows = resolveRows(params.rows);
     const url = new URL(KOPIS_PROMOTER_BASE);
     url.searchParams.set('service', apiKey);
-    url.searchParams.set('rows', String(params.rows ?? 50));
+    url.searchParams.set('rows', String(rows));
     url.searchParams.set('cpage', String(params.page ?? 1));
     if (params.name) url.searchParams.set('entrpsnm', params.name);
     if (params.category) url.searchParams.set('shcate', params.category);
@@ -342,11 +366,12 @@ export function createKopisClient(apiKey: string) {
   }
 
   async function getAwardList(params: ListParams): Promise<KopisAwardPerformance[]> {
+    const rows = resolveRows(params.rows);
     const url = new URL(KOPIS_AWARD_BASE);
     url.searchParams.set('service', apiKey);
     url.searchParams.set('stdate', params.startDate);
     url.searchParams.set('eddate', params.endDate ?? todayString());
-    url.searchParams.set('rows', String(params.rows ?? 50));
+    url.searchParams.set('rows', String(rows));
     url.searchParams.set('cpage', String(params.page ?? 1));
     if (params.category) url.searchParams.set('shcate', params.category);
     if (params.area) url.searchParams.set('signgucode', params.area);
@@ -370,6 +395,35 @@ export function createKopisClient(apiKey: string) {
     return items.map(toAwardPerformance);
   }
 
+  async function getFestivalList(params: ListParams): Promise<KopisFestivalPerformance[]> {
+    const rows = resolveRows(params.rows);
+    const url = new URL(KOPIS_FESTIVAL_BASE);
+    url.searchParams.set('service', apiKey);
+    url.searchParams.set('stdate', params.startDate);
+    url.searchParams.set('eddate', params.endDate ?? todayString());
+    url.searchParams.set('rows', String(rows));
+    url.searchParams.set('cpage', String(params.page ?? 1));
+    if (params.category) url.searchParams.set('shcate', params.category);
+    if (params.area) url.searchParams.set('signgucode', params.area);
+    if (params.subArea) url.searchParams.set('signgucodesub', params.subArea);
+    if (params.facilityCode) url.searchParams.set('prfplccd', params.facilityCode);
+    if (params.performState) url.searchParams.set('prfstate', params.performState);
+    if (params.kidState) url.searchParams.set('kidstate', 'Y');
+    if (params.afterDate) url.searchParams.set('afterdate', params.afterDate);
+    if (params.title) url.searchParams.set('shprfnm', params.title);
+    if (params.venue) url.searchParams.set('shprfnmfct', params.venue);
+
+    const xml = await safeFetch(url.toString());
+    const parsed = parser.parse(xml);
+    checkApiError(parsed);
+
+    const db = parsed?.dbs?.db;
+    if (!db) return [];
+
+    const items: RawFestivalItem[] = Array.isArray(db) ? db : [db];
+    return items.map(toFestivalPerformance);
+  }
+
   return {
     getPerformanceList,
     getPerformanceDetail,
@@ -377,5 +431,6 @@ export function createKopisClient(apiKey: string) {
     getVenueDetail,
     getPromoterList,
     getAwardList,
+    getFestivalList,
   };
 }
