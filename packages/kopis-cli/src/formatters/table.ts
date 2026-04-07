@@ -2,6 +2,7 @@ import Table from 'cli-table3';
 import type {
   KopisPerformance,
   KopisPerformanceDetail,
+  KopisPromoter,
   KopisVenue,
   KopisVenueDetail,
 } from '../kopis/types.js';
@@ -90,6 +91,20 @@ export function formatVenueDetailTable(detail: KopisVenueDetail): string {
       hallTable.push([hall.name, hall.seatCount, hall.stageOrOrchestra]);
     }
     return `${table.toString()}\n\n공연장 목록\n${hallTable.toString()}`;
+  }
+
+  return table.toString();
+}
+
+export function formatPromoterListTable(items: KopisPromoter[]): string {
+  const table = new Table({
+    head: ['ID', '제작사명', '최신작품', '장르', '전화번호', '홈페이지'],
+    colWidths: [14, 22, 24, 12, 18, 30],
+    wordWrap: true,
+  });
+
+  for (const item of items) {
+    table.push([item.id, item.name, item.latestWork, item.genre, item.phone, item.homepage]);
   }
 
   return table.toString();

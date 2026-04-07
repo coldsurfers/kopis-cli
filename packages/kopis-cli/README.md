@@ -48,6 +48,9 @@ tickets venue --name 예술의전당
 # 공연시설 상세 조회
 tickets venue-detail FC001247
 
+# 기획/제작사 목록 조회
+tickets promoter --name 국악단
+
 # JSON 출력 (모든 커맨드 공통)
 tickets find --startDate 20250101 --format json
 ```

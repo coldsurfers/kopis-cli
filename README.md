@@ -120,6 +120,25 @@ tickets venue-detail FC001247
 tickets venue-detail FC001247 --format json
 ```
 
+### 기획/제작사 목록 조회
+
+```bash
+# 기획/제작사명 검색
+tickets promoter --name 국악단
+
+# 장르 필터
+tickets promoter --category CCCD
+
+# 특정 날짜 이후 등록/수정된 항목만
+tickets promoter --afterDate 20260101
+
+# JSON 출력
+tickets promoter --format json
+
+# 페이지네이션
+tickets promoter --rows 10 --page 2
+```
+
 ## 옵션
 
 ### `find` — 공연 목록 조회
@@ -170,6 +189,18 @@ tickets venue-detail FC001247 --format json
 | 옵션 | 설명 | 기본값 |
 |------|------|--------|
 | `<id>` | 공연시설 ID (필수, positional) | **필수** |
+| `--format <type>` | 출력 형식 (`table` \| `json`) | table |
+| `--apiKey <key>` | KOPIS API Key | `KOPIS_KEY` env |
+
+### `promoter` — 기획/제작사 목록 조회
+
+| 옵션 | 설명 | 기본값 |
+|------|------|--------|
+| `--name <name>` | 기획/제작사명 검색 | - |
+| `--category <code>` | 장르코드 필터 | - |
+| `--afterDate <date>` | 해당 일자 이후 등록/수정 항목만 (yyyyMMdd) | - |
+| `--rows <number>` | 페이지당 결과 수 | 50 |
+| `--page <number>` | 페이지 번호 | 1 |
 | `--format <type>` | 출력 형식 (`table` \| `json`) | table |
 | `--apiKey <key>` | KOPIS API Key | `KOPIS_KEY` env |
 

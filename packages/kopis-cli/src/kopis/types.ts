@@ -86,6 +86,23 @@ export interface KopisVenueDetail {
   halls: KopisHall[];
 }
 
+export interface KopisPromoter {
+  id: string;
+  name: string;
+  latestWork: string;
+  genre: string;
+  phone: string;
+  homepage: string;
+}
+
+export interface PromoterListParams {
+  rows?: number;
+  page?: number;
+  name?: string;
+  category?: string;
+  afterDate?: string;
+}
+
 export interface VenueListParams {
   rows?: number;
   page?: number;
