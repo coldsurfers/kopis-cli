@@ -1,10 +1,12 @@
 import { XMLParser } from 'fast-xml-parser';
 import { todayString } from '../utils/date.js';
 import type {
+  KopisHall,
   KopisPerformance,
   KopisPerformanceDetail,
   KopisTicketInfo,
   KopisVenue,
+  KopisVenueDetail,
   ListParams,
   VenueListParams,
 } from './types.js';
@@ -51,6 +53,28 @@ interface RawRelate {
   relateurl: string;
 }
 
+interface RawHall {
+  mt13id: string;
+  prfplcnm: string;
+  seatscale: number;
+  stageorchat: string;
+}
+
+interface RawVenueDetail {
+  mt10id: string;
+  fcltynm: string;
+  mt13cnt: number;
+  fcltychartr: string;
+  opende: string;
+  seatscale: number;
+  telno: string;
+  relateurl: string;
+  adres: string;
+  la: string;
+  lo: string;
+  mt13s?: { mt13: RawHall | RawHall[] };
+}
+
 interface RawVenueItem {
   mt10id: string;
   fcltynm: string;
@@ -59,6 +83,34 @@ interface RawVenueItem {
   sidonm: string;
   gugunnm: string;
   opende: string;
+}
+
+function parseHalls(mt13s?: { mt13: RawHall | RawHall[] } | undefined): KopisHall[] {
+  if (!mt13s?.mt13) return [];
+  const list = Array.isArray(mt13s.mt13) ? mt13s.mt13 : [mt13s.mt13];
+  return list.map((h) => ({
+    id: String(h.mt13id),
+    name: String(h.prfplcnm ?? ''),
+    seatCount: Number(h.seatscale ?? 0),
+    stageOrOrchestra: String(h.stageorchat ?? ''),
+  }));
+}
+
+function toVenueDetail(raw: RawVenueDetail): KopisVenueDetail {
+  return {
+    id: String(raw.mt10id),
+    name: String(raw.fcltynm),
+    hallCount: Number(raw.mt13cnt ?? 0),
+    type: String(raw.fcltychartr ?? ''),
+    openYear: String(raw.opende ?? ''),
+    seatScale: Number(raw.seatscale ?? 0),
+    phone: String(raw.telno ?? ''),
+    homepage: String(raw.relateurl ?? ''),
+    address: String(raw.adres ?? ''),
+    latitude: String(raw.la ?? ''),
+    longitude: String(raw.lo ?? ''),
+    halls: parseHalls(raw.mt13s),
+  };
 }
 
 function toVenue(raw: RawVenueItem): KopisVenue {
@@ -222,5 +274,16 @@ export function createKopisClient(apiKey: string) {
     return items.map(toVenue);
   }
 
-  return { getPerformanceList, getPerformanceDetail, getVenueList };
+  async function getVenueDetail(id: string): Promise<KopisVenueDetail | null> {
+    const xml = await safeFetch(`${KOPIS_VENUE_BASE}/${id}?service=${apiKey}`);
+    const parsed = parser.parse(xml);
+    checkApiError(parsed);
+
+    const db = parsed?.dbs?.db;
+    if (!db) return null;
+
+    return toVenueDetail(db as RawVenueDetail);
+  }
+
+  return { getPerformanceList, getPerformanceDetail, getVenueList, getVenueDetail };
 }
