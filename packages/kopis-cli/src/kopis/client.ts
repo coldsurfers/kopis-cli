@@ -4,15 +4,18 @@ import type {
   KopisHall,
   KopisPerformance,
   KopisPerformanceDetail,
+  KopisPromoter,
   KopisTicketInfo,
   KopisVenue,
   KopisVenueDetail,
   ListParams,
+  PromoterListParams,
   VenueListParams,
 } from './types.js';
 
 const KOPIS_BASE = 'http://www.kopis.or.kr/openApi/restful/pblprfr';
 const KOPIS_VENUE_BASE = 'http://www.kopis.or.kr/openApi/restful/prfplc';
+const KOPIS_PROMOTER_BASE = 'http://www.kopis.or.kr/openApi/restful/mnfct';
 
 interface RawListItem {
   mt20id: string;
@@ -73,6 +76,26 @@ interface RawVenueDetail {
   la: string;
   lo: string;
   mt13s?: { mt13: RawHall | RawHall[] };
+}
+
+interface RawPromoterItem {
+  mt30id: string;
+  entrpsnm: string;
+  prfnm: string;
+  genrenm: string;
+  telno: string;
+  relateurl: string;
+}
+
+function toPromoter(raw: RawPromoterItem): KopisPromoter {
+  return {
+    id: String(raw.mt30id),
+    name: String(raw.entrpsnm),
+    latestWork: String(raw.prfnm ?? ''),
+    genre: String(raw.genrenm ?? ''),
+    phone: String(raw.telno ?? ''),
+    homepage: String(raw.relateurl ?? ''),
+  };
 }
 
 interface RawVenueItem {
@@ -285,5 +308,31 @@ export function createKopisClient(apiKey: string) {
     return toVenueDetail(db as RawVenueDetail);
   }
 
-  return { getPerformanceList, getPerformanceDetail, getVenueList, getVenueDetail };
+  async function getPromoterList(params: PromoterListParams): Promise<KopisPromoter[]> {
+    const url = new URL(KOPIS_PROMOTER_BASE);
+    url.searchParams.set('service', apiKey);
+    url.searchParams.set('rows', String(params.rows ?? 50));
+    url.searchParams.set('cpage', String(params.page ?? 1));
+    if (params.name) url.searchParams.set('entrpsnm', params.name);
+    if (params.category) url.searchParams.set('shcate', params.category);
+    if (params.afterDate) url.searchParams.set('afterdate', params.afterDate);
+
+    const xml = await safeFetch(url.toString());
+    const parsed = parser.parse(xml);
+    checkApiError(parsed);
+
+    const db = parsed?.dbs?.db;
+    if (!db) return [];
+
+    const items: RawPromoterItem[] = Array.isArray(db) ? db : [db];
+    return items.map(toPromoter);
+  }
+
+  return {
+    getPerformanceList,
+    getPerformanceDetail,
+    getVenueList,
+    getVenueDetail,
+    getPromoterList,
+  };
 }
