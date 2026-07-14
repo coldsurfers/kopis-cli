@@ -34,7 +34,8 @@
     "README.md"
   ],
   "bin": {
-    "tickets": "./dist/cli.js"
+    "tickets": "./dist/cli.js",
+    "tickets-mcp": "./dist/mcp.js"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -56,8 +57,10 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
     "cli-table3": "^0.6.5",
     "commander": "^14.0.3",
-    "fast-xml-parser": "^5.5.10"
+    "fast-xml-parser": "^5.5.10",
+    "zod": "^4.4.3"
   }
 }

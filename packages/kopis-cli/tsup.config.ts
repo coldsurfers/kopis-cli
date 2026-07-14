@@ -9,7 +9,7 @@ export default defineConfig([
     shims: true,
   },
   {
-    entry: ['src/cli.ts'],
+    entry: ['src/cli.ts', 'src/mcp.ts'],
     format: ['esm'],
     banner: { js: '#!/usr/bin/env node' },
     shims: true,

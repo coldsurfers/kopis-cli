@@ -125,6 +125,52 @@ const venues = await client.getVenueList({
 | 코드 타입 | `KopisCategoryCode`, `KopisAreaCode`, `KopisPerformStateCode`, `KopisVenueTypeCode` |
 | 상수 | `KOPIS_CATEGORIES`, `KOPIS_AREAS`, `KOPIS_PERFORM_STATES`, `KOPIS_VENUE_TYPES`, `KOPIS_SUB_AREAS` |
 
+## MCP 서버로 사용
+
+`@coldsurf/tickets` 는 CLI·SDK 외에 **MCP(Model Context Protocol) 서버**(`tickets-mcp`)를 함께 제공합니다.
+Claude Code, Claude Desktop 같은 MCP 호스트에 붙이면 **"오늘 예스24라이브홀 공연 일정"** 같은 자연어로 KOPIS 를 조회할 수 있습니다.
+
+호스트가 자연어를 tool 호출로 번역하고, 서버는 SDK 를 그대로 실행합니다.
+
+### 설정
+
+MCP 호스트 설정(`mcpServers`)에 아래처럼 등록합니다. API Key 는 `env` 로 전달합니다.
+
+```json
+{
+  "mcpServers": {
+    "tickets": {
+      "command": "npx",
+      "args": ["-y", "@coldsurf/tickets", "tickets-mcp"],
+      "env": { "KOPIS_KEY": "발급받은_API_KEY" }
+    }
+  }
+}
+```
+
+전역 설치(`npm i -g @coldsurf/tickets`) 후라면 `"command": "tickets-mcp"` 로 바로 지정할 수도 있습니다.
+
+Claude Code CLI 라면 한 줄로도 등록됩니다:
+
+```bash
+claude mcp add tickets --env KOPIS_KEY=발급받은_API_KEY -- npx -y @coldsurf/tickets tickets-mcp
+```
+
+### 제공 tool (SDK 8개 메서드 1:1)
+
+| tool | 설명 |
+| --- | --- |
+| `find_performances` | 공연 목록 조회 (날짜·시설명·지역·장르 필터, 날짜 생략 시 오늘) |
+| `get_performance_detail` | 공연 상세 (러닝타임·가격·시놉시스·예매처) |
+| `find_venues` | 공연시설 목록 조회 |
+| `get_venue_detail` | 공연시설 상세 (주소·좌표·수용인원·공연장 목록) |
+| `find_promoters` | 기획·제작사 목록 조회 |
+| `find_award_performances` | 수상작 공연 목록 |
+| `find_festival_performances` | 축제 공연 목록 |
+| `find_creator_performances` | 원·창작자 공연 목록 |
+
+예) "오늘 예스24라이브홀 공연 일정 알려줘" → 호스트가 `find_performances({ venue: "예스24 라이브홀" })` (날짜 생략 = 오늘) 로 호출합니다.
+
 ## 데이터 출처
 
 이 도구는 [KOPIS 공연예술통합전산망](https://kopis.or.kr) (예술경영지원센터)에서 제공하는 OpenAPI 데이터를 사용합니다.
