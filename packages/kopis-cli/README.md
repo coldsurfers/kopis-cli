@@ -141,7 +141,7 @@ MCP 호스트 설정(`mcpServers`)에 아래처럼 등록합니다. API Key 는 
   "mcpServers": {
     "tickets": {
       "command": "npx",
-      "args": ["-y", "@coldsurf/tickets", "tickets-mcp"],
+      "args": ["-y", "-p", "@coldsurf/tickets", "tickets-mcp"],
       "env": { "KOPIS_KEY": "발급받은_API_KEY" }
     }
   }
@@ -153,7 +153,7 @@ MCP 호스트 설정(`mcpServers`)에 아래처럼 등록합니다. API Key 는 
 Claude Code CLI 라면 한 줄로도 등록됩니다:
 
 ```bash
-claude mcp add tickets --env KOPIS_KEY=발급받은_API_KEY -- npx -y @coldsurf/tickets tickets-mcp
+claude mcp add tickets --env KOPIS_KEY=발급받은_API_KEY -- npx -y -p @coldsurf/tickets tickets-mcp
 ```
 
 ### 제공 tool (SDK 8개 메서드 1:1)
