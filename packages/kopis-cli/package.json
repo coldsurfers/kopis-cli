@@ -37,21 +37,30 @@
     "tickets": "./dist/cli.js",
     "tickets-mcp": "./dist/mcp.js"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.cts",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "check:attw": "attw --pack ."
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
     "@types/node": "^25.5.2",
     "tsup": "^8",
     "typescript": "^5"

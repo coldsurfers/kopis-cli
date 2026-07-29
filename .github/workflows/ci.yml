@@ -26,7 +26,11 @@ jobs:
 
       - run: pnpm check:ci
 
-      - run: pnpm turbo build
+      - name: Build
+        run: pnpm turbo build
+
+      - name: Check package exports (attw)
+        run: pnpm turbo check:attw
 
       - name: Typecheck
         run: pnpm --filter @coldsurf/tickets exec tsc --noEmit
