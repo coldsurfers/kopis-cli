@@ -53,6 +53,9 @@ interface RawDetail {
   pcseguidance: string;
   sty: string;
   dtguidance: string;
+  entrpsnmH?: string;
+  entrpsnmA?: string;
+  entrpsnmP?: string;
   styurls?: { styurl: string | string[] };
   relates?: { relate: RawRelate | RawRelate[] };
 }
@@ -239,6 +242,9 @@ function toPerformanceDetail(raw: RawDetail): KopisPerformanceDetail {
     timeGuide: String(raw.dtguidance ?? ''),
     detailImages: parseDetailImages(raw.styurls),
     tickets: parseTickets(raw.relates),
+    hostCompany: String(raw.entrpsnmH ?? '').trim(),
+    plannerCompany: String(raw.entrpsnmA ?? '').trim(),
+    producerCompany: String(raw.entrpsnmP ?? '').trim(),
   };
 }
 
