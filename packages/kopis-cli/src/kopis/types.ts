@@ -35,6 +35,12 @@ export interface KopisPerformanceDetail {
   timeGuide: string;
   detailImages: string[];
   tickets: KopisTicketInfo[];
+  /** 주최 (`entrpsnmH`) — 원문 그대로, 여러 회사면 쉼표로 이어진다 */
+  hostCompany: string;
+  /** 기획 (`entrpsnmA`) */
+  plannerCompany: string;
+  /** 제작 (`entrpsnmP`) */
+  producerCompany: string;
 }
 
 export interface ListParams {
