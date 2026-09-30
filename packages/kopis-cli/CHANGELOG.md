@@ -1,5 +1,11 @@
 # @coldsurf/tickets
 
+## 0.10.3
+
+### Patch Changes
+
+- add1770: 공연 상세에 주최 · 기획 · 제작 회사명(`hostCompany` · `plannerCompany` · `producerCompany`)을 노출합니다.
+
 ## 0.10.2
 
 ### Patch Changes
